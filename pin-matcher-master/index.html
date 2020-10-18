@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" type="text"  id="randomScreen">
+                    <button class="generate-btn" id="generate-button">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" type="text" id="type-screen">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <!-- <div class="button">7</div>
+                              <div class="button">8</div>
+                              <div class="button">9</div> -->
+                              <input type="button" class="button" value="7" onclick="calculate(this.value)">
+                              <input type="button" class="button" value="8" onclick="calculate(this.value)">
+                              <input type="button" class="button" value="9" onclick="calculate(this.value)">
+                              
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="getValue(event)">4</div>
+                              <div class="button" onclick="getValue(event)">5</div>
+                              <div class="button" onclick="getValue(event)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="getValue(event)">1</div>
+                              <div class="button" onclick="getValue(event)">2</div>
+                              <div class="button" onclick="getValue(event)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" ><</div>
+                                <div class="button" onclick="getValue(event)">0</div>
+                                <div class="button" id="clear">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="submit-button">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p class="notify" id="decline">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify" id="proceed">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+        
+
+    <script>
+        document.getElementById('proceed').style.display="none";
+        document.getElementById('decline').style.display= "none";
+
+        var generateBtn = document.getElementById('generate-button');
+        generateBtn.addEventListener('click', function(){
+            var randomNum=Math.floor( Math.random()*4999);
+            document.getElementById('randomScreen').value= randomNum;
+            document.getElementById('decline').style.display= "none";
+            document.getElementById('proceed').style.display= "none";
+
+            
+
+        })
+        const submitButton= document.getElementById('submit-button');
+        submitButton.addEventListener('click', function(){
+        const secondScreen=  document.getElementById('type-screen').value;
+        const newSecond= parseFloat(secondScreen);
+        
+        const firstScreen=  document.getElementById('randomScreen').value;
+        const newFirst= parseFloat(firstScreen);
+
+        if (newSecond == newFirst){
+            const message= document.getElementById('proceed');
+            message.style.display= "block";
+        }
+        if(newSecond !== newFirst){
+            document.getElementById('decline').style.display= "block";
+        }
+        
+       
+        })
+
+        //setting function for input button to get the value.
+        function calculate(x){
+            
+            document.getElementById('type-screen').value = document.getElementById('type-screen').value + x;
+        }
+        //setting function on div to get the value.
+        function getValue(e){
+            const result= e.target.innerText;
+            document.getElementById('type-screen').value= document.getElementById('type-screen').value + e.target.innerText;
+        }
+        //working on clear button
+        document.getElementById('clear').addEventListener('click', function(){
+            document.getElementById('type-screen').value= "";
+        });
+    </script>
+    
+</body>
+</html>
